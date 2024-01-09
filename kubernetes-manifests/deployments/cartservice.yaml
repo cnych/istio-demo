@@ -22,11 +22,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cartservice
+  namespace: cart
 spec:
   selector:
     matchLabels:
       app: cartservice
-      namespace: cart
   template:
     metadata:
       labels:
