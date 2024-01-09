@@ -22,6 +22,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: paymentservice
+  namespace: payment
 spec:
   selector:
     matchLabels:
@@ -31,7 +32,7 @@ spec:
       labels:
         app: paymentservice
     spec:
-      serviceAccountName: default
+      serviceAccountName: payment
       terminationGracePeriodSeconds: 5
       securityContext:
         fsGroup: 1000
