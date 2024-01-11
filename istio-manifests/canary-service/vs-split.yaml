@@ -7,19 +7,19 @@ metadata:
 spec:
   hosts:
     - productcatalogservice.product-catalog.svc.cluster.local
-  gateways:
-    - mesh
   http:
     - match:
-        - gateways:
-            - mesh
-          port: 3550
+        - port: 3550
       route:
         - destination:
             host: productcatalogservice.product-catalog.svc.cluster.local
             subset: v1
-          weight: 75
+            port:
+              number: 3550
+          weight: 80
         - destination:
             host: productcatalogservice.product-catalog.svc.cluster.local
             subset: v2
-          weight: 25
+            port:
+              number: 3550
+          weight: 20
