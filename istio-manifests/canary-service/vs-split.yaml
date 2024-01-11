@@ -8,18 +8,12 @@ spec:
   hosts:
     - productcatalogservice.product-catalog.svc.cluster.local
   http:
-    - match:
-        - port: 3550
-      route:
+    - route:
         - destination:
             host: productcatalogservice.product-catalog.svc.cluster.local
             subset: v1
-            port:
-              number: 3550
-          weight: 80
+          weight: 75
         - destination:
             host: productcatalogservice.product-catalog.svc.cluster.local
             subset: v2
-            port:
-              number: 3550
-          weight: 20
+          weight: 25
