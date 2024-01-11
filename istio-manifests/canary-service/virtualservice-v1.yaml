@@ -2,12 +2,12 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: productcatalogservice
-  namespace: product-catalog
+  namespace: frontend
 spec:
   hosts:
     - productcatalogservice.product-catalog.svc.cluster.local
   http:
     - route:
         - destination:
-            host: productcatalogservice
+            host: productcatalogservice.product-catalog.svc.cluster.local
             subset: v1
