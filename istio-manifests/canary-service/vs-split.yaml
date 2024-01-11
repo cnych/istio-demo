@@ -7,8 +7,14 @@ metadata:
 spec:
   hosts:
     - productcatalogservice.product-catalog.svc.cluster.local
+  gateways:
+    - mesh
   http:
-    - route:
+    - match:
+        - gateways:
+            - mesh
+          port: 3550
+      route:
         - destination:
             host: productcatalogservice.product-catalog.svc.cluster.local
             subset: v1
