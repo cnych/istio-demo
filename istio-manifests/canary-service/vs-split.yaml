@@ -1,0 +1,19 @@
+# vs-split-traffic.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: productcatalogservice
+  namespace: product-catalog
+spec:
+  hosts:
+    - productcatalogservice.product-catalog.svc.cluster.local
+  http:
+    - route:
+        - destination:
+            host: productcatalogservice
+            subset: v1
+          weight: 75
+        - destination:
+            host: productcatalogservice
+            subset: v2
+          weight: 25

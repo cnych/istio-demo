@@ -1,0 +1,15 @@
+# destination-v2.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: productcatalogservice
+  namespace: product-catalog
+spec:
+  host: productcatalogservice.product-catalog.svc.cluster.local
+  subsets:
+    - labels:
+        version: v1
+      name: v1
+    - labels:
+        version: v2
+      name: v2

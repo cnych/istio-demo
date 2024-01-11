@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productcatalogservice-v2
+  namespace: product-catalog
+spec:
+  selector:
+    matchLabels:
+      app: productcatalogservice
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: productcatalogservice
+        version: v2
+    spec:
+      volumes:
+        - name: products
+          configMap:
+            name: products-v2
+      containers:
+        - env:
+            - name: PORT
+              value: "3550"
+            - name: DISABLE_PROFILER
+              value: "1"
+          image: gcr.dockerproxy.com/google-samples/microservices-demo/productcatalogservice:v0.9.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            grpc:
+              port: 3550
+          name: server
+          ports:
+            - containerPort: 3550
+              protocol: TCP
+          volumeMounts:
+            - name: products
+              subPath: products.json
+              mountPath: /src
+          readinessProbe:
+            grpc:
+              port: 3550
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      serviceAccountName: product-catalog
+      terminationGracePeriodSeconds: 5
